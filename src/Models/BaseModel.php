@@ -5,7 +5,9 @@ namespace Igorsgm\Ghost\Models;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use AllowDynamicProperties;
 
+#[AllowDynamicProperties]
 abstract class BaseModel
 {
     /**
@@ -102,6 +104,10 @@ abstract class BaseModel
     private function castModelProperty($property, $value)
     {
         $propertyModel = $this->modelProperties[$property];
+
+        if(!is_array($value)) {
+            return $value;
+        }
 
         return ! empty($value) ? new $propertyModel($value) : null;
     }
